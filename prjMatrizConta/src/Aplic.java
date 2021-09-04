@@ -1,11 +1,7 @@
 
 import fatec.poo.model.ContaCorrente;
 import java.util.Scanner;
-
-/**
- * Hello world!
- *
- */
+//teste
 public class Aplic 
 {
     ContaCorrente[] contas = new ContaCorrente[15];
