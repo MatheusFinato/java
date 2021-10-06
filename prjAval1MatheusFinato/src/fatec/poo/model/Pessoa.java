@@ -6,28 +6,19 @@ package fatec.poo.model;
  * @author Matheus
  */
 public class Pessoa {
-    public String cpf;
-    public String nome;
-    private String telefone;
+    private int identificacao;
+    private String nome;
 
-    public Pessoa(String cpf, String nome) {
-        this.cpf = cpf;
+    public Pessoa(int identificacao, String nome) {
+        this.identificacao = identificacao;
         this.nome = nome;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getCpf() {
-        return cpf;
+    public int getIdentificacao() {
+        return identificacao;
     }
 
     public String getNome() {
         return nome;
     }
-
-    public String getTelefone() {
-        return telefone;
-    } 
 }

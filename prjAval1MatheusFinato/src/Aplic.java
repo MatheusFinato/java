@@ -1,83 +1,101 @@
-import fatec.poo.model.Palestra;
-import fatec.poo.model.Palestrante;
+
+import fatec.poo.model.Corretor;
 import fatec.poo.model.Pessoa;
-import fatec.poo.model.Participante;
+import fatec.poo.model.Proprietario;
 import java.text.DecimalFormat;
 import java.util.Scanner;
+
 
 /**
  *
  * @author Matheus
  */
 public class Aplic {
-
+    
     public static void main(String[] args) {
-        DecimalFormat df = new DecimalFormat ("#,##0.00");
+        DecimalFormat df = new DecimalFormat("#,##0.00");
         Scanner entrada = new Scanner(System.in);
         
-        Palestrante objPalestrante = new Palestrante("123.456.789-11","Carlos Silva",75);
-        objPalestrante.setAreaAtuacao("Segurança em redes de comp");
+        Pessoa[] cadCorPro = new Pessoa[20];
+        int opcao, cont=0, id;
+        String nome, telefone;
+        double comissao, valorAluguel;
         
-        Palestra objPalestra = new Palestra("15/06/2020","Segurança em rede de comp");
-        objPalestra.setValor(600);
-        objPalestra.setLocal("Auditorio Carlos Penha");
-                
-        Participante[] objParticipante = new Participante[3];
-        objParticipante[0]=new Participante("121212122","Ana Beatriz",1);
-        objParticipante[1]=new Participante("13131313","Fabio Souza",2);
-        objParticipante[2]=new Participante("141414144","Marcos Silva",3);
-              
-        objParticipante[0].setEscolaridade("Ensino médio");
-        objParticipante[1].setEscolaridade("Ensino médio");
-        objParticipante[2].setEscolaridade("Ensino superior");
-        
-        int opcao;
         do{
-            System.out.println("\n\n1 Exibir Palestras");
-            System.out.println("2 Exibir Participantes");
-            System.out.println("3 Sair");
+            System.out.println("\n1 Cadastrar corretor");
+            System.out.println("2 Cadastrar proprietario");
+            System.out.println("3 Listar corretores");
+            System.out.println("4 Sair");
             System.out.print("\nDigite a opção: ");
-            opcao=entrada.nextInt();
+            opcao = entrada.nextInt();
+            
             switch(opcao){
-                case 1:
-                    ((Palestrante)objPalestrante).listarPalestras();
-                    System.out.print("\nData\t\tTema\t\t\t\tValor");
-                    System.out.println("\n"+((Palestra)objPalestra).getData()+"\t"+
-                            ((Palestra)objPalestra).getTema()+"\t"+
-                            ((Palestra)objPalestra).getValor());
-                    double total=((((Palestrante)objPalestrante).getTaxaCobranca())/100)*((Palestra)objPalestra).getValor()*3;
-                    System.out.println("\nTotal: "+df.format(total));
-                    break;
-                case 2:
-                    double totall2=0;
-                    ((Palestra)objPalestra).emitirListaParticipantes();
-                    System.out.println("Palestrante: "+((Palestrante)objPalestrante).getNome());
-                    System.out.println("Data: "+((Palestra)objPalestra).getData());
-                    System.out.println("Data: "+((Palestra)objPalestra).getLocal());
-                    System.out.println("N° Participantes: "+objParticipante.length);
-                    System.out.print("\nNome\t\tEscolaridade\t\tTipo");
-                    for(int cont=0;cont<objParticipante.length;cont++){
-                        if(((Participante)objParticipante[cont]).getTipo()==1){
-                            String tipoParticipante="Comum";
-                            System.out.print("\n"+((Participante)objParticipante[cont]).getNome()+"\t"+
-                            ((Participante)objParticipante[cont]).getEscolaridade()+"\t\t"+
-                            tipoParticipante);
-                        } else if(((Participante)objParticipante[cont]).getTipo()==2){
-                            String tipoParticipante="Estudante";
-                            System.out.print("\n"+((Participante)objParticipante[cont]).getNome()+"\t"+
-                            ((Participante)objParticipante[cont]).getEscolaridade()+"\t\t"+
-                            tipoParticipante);
-                        } else {
-                            String tipoParticipante="Idoso";
-                            System.out.print("\n"+((Participante)objParticipante[cont]).getNome()+"\t"+
-                            ((Participante)objParticipante[cont]).getEscolaridade()+"\t\t"+
-                            tipoParticipante);
-                        }
-                        totall2=(((Palestra)objPalestra).getValor())*3;
+                case 1: 
+                    if(cont<cadCorPro.length){
+                        System.out.print("\nDigite a identificação: ");
+                        id=entrada.nextInt();
+                        System.out.print("Digite o nome: ");
+                        nome=entrada.next();
+                        System.out.print("Digite a taxa de comissão(%): ");
+                        comissao=(entrada.nextDouble())/100;
+                        
+                        cadCorPro[cont]=new Corretor(id,nome,comissao);
+                        cont++;
+                    }else{
+                        System.out.println("\n\t\t------------------");
+                        System.out.println("\t\tLimite de matriz atingido");
+                        System.out.println("\t\t------------------");
                     }
-                    System.out.println("\nTotal: "+df.format(totall2));
+                    break;
+                case 2: 
+                    boolean corretorEncontrado=false;
+                    if(cont<cadCorPro.length){
+                        System.out.print("Digite a id do corretor: ");
+                        id=entrada.nextInt();
+                        for(int cont2=0;cont2<20;cont2++){
+                            if(cadCorPro[cont2] instanceof Corretor && ((Corretor)cadCorPro[cont2]).getIdentificacao()==id){
+                                corretorEncontrado=true;
+                                System.out.print("\nDigite a identificação: ");
+                                id=entrada.nextInt();
+                                System.out.print("Digite o nome: ");
+                                nome=entrada.next();
+                                System.out.print("Digite o telefone: ");
+                                telefone=entrada.next();
+                                System.out.print("Digite o valor do aluguel: ");
+                                valorAluguel=entrada.nextDouble();
+                                                                
+                                cadCorPro[cont]=new Proprietario(id,nome,telefone);
+                                ((Proprietario)cadCorPro[cont]).setValorAluguel(valorAluguel);
+                                ((Corretor)cadCorPro[cont2]).calcTotalComissao(valorAluguel*((Corretor)cadCorPro[cont2]).getTaxaComissao());
+                                cont++;
+                                break;
+                            }
+                        }
+                        if(corretorEncontrado==false){
+                            System.out.println("Corretor não cadastrado");
+                        }
+                    }else{
+                        System.out.println("\n\t\t------------------");
+                        System.out.println("\t\tLimite de matriz atingido");
+                        System.out.println("\t\t------------------");
+                    }
+                    break;
+                case 3: 
+                    if(cont>0){
+                        System.out.print("\nId\tNome\tTaxa\tTotal");
+                        for(int cont3=0;cont3<cont;cont3++){
+                            if(cadCorPro[cont3] instanceof Corretor){
+                                System.out.print("\n"+((Corretor)cadCorPro[cont3]).getIdentificacao()+"\t"+((Corretor)cadCorPro[cont3]).getNome()+"\t"+
+                                df.format((((Corretor)cadCorPro[cont3]).getTaxaComissao())*100)+"\t"+df.format(((Corretor)cadCorPro[cont3]).getTaxaLocacao()));
+                            }
+                        }
+                    }else{
+                        System.out.println("\n\t\t-------------------------");
+                        System.out.println("\t\tNão existem dados para listar");
+                        System.out.println("\t\t-------------------------");
+                    }
                     break;
             }
-        } while(opcao!=3);
-    }
+        }while(opcao!=4);
+    }  
 }
